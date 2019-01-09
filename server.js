@@ -47,6 +47,44 @@ app.get('/api/contacts/:id', (request, response) => {
   
   });
 
+  app.put('/api/contacts/:id', (request, response) => {
+
+    let contactId = request.params.id;
+  
+    let contact = contacts.filter(contact => {
+      return contact.id == contactId;
+    })[0];
+  
+    const index = contacts.indexOf(contact);
+  
+    let keys = Object.keys(request.body);
+  
+    keys.forEach(key => {
+      contact[key] = request.body[key];
+    });
+  
+    contacts[index] = contact;
+  
+    // response.json({ message: `User ${contactId} updated.`});
+    response.json(contacts[index]);
+  });
+
+  app.delete('/api/contacts/:id', (request, response) => {
+  
+    let contactId = request.params.id;
+  
+    let contact = contacts.filter(contact => {
+      return contact.id == contactId;
+    })[0];
+  
+    const index = contacts.indexOf(contact);
+  
+    contacts.splice(index, 1);
+  
+    response.json({ message: `User ${contactId} deleted.`});
+  
+  });
+
 const hostname = 'localhost';
 const port = 3001;
 
